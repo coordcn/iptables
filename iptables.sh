@@ -34,7 +34,8 @@ $IPT -t nat     -P POSTROUTING  ACCEPT
 $IPT -t mangle  -P PREROUTING   ACCEPT
 $IPT -t mangle  -P OUTPUT       ACCEPT
 
-if [ "$1" = "stop"] then
+if [ "$1" == "stop" ]
+then
     echo "iptables stopped!"
     exit 0
 fi
@@ -48,7 +49,7 @@ $IPT -P FORWARD ACCEPT
 
 if [ "$LOCAL_NET" ]
 then
-	iptables -A INPUT -s $LOCAL_NET -j ACCEPT
+	$IPT -A INPUT -s $LOCAL_NET -j ACCEPT
 fi
 
 $IPT -A INPUT   -m state --state INVALID -j DROP
