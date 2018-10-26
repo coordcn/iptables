@@ -62,7 +62,7 @@ $IPT -A OUTPUT  -m state --state INVALID -j DROP
 # Stealth Scan
 ###########################################################
 $IPT -N STEALTH_SCAN
-# iptables -A STEALTH_SCAN -j LOG --log-prefix "stealth_scan_attack: "
+$IPT -A STEALTH_SCAN -j LOG --log-prefix "stealth_scan_attack: "
 $IPT -A STEALTH_SCAN -j DROP
 
 $IPT -A INPUT -p tcp --tcp-flags SYN,ACK SYN,ACK -m state --state NEW -j STEALTH_SCAN
@@ -74,7 +74,7 @@ $IPT -A INPUT -p tcp --tcp-flags SYN,FIN SYN,FIN         -j STEALTH_SCAN
 $IPT -A INPUT -p tcp --tcp-flags SYN,RST SYN,RST         -j STEALTH_SCAN
 
 # Xmas Tree 
-$IPT -A INPUT -p tcp --tcp-flags ALL ALL -j DROP
+$IPT -A INPUT -p tcp --tcp-flags ALL ALL -j STEALTH_SCAN
 
 # Another Xmas Tree 
 $IPT -A INPUT -p tcp --tcp-flags ALL SYN,RST,ACK,FIN,URG -j STEALTH_SCAN
@@ -102,7 +102,7 @@ $IPT -A PING_OF_DEATH -p icmp --icmp-type echo-request \
      --hashlimit-name t_PING_OF_DEATH \
      -j RETURN
 
-# iptables -A PING_OF_DEATH -j LOG --log-prefix "ping_of_death_attack: "
+$IPT -A PING_OF_DEATH -j LOG --log-prefix "ping_of_death_attack: "
 $IPT -A PING_OF_DEATH -j DROP
 
 $IPT -A INPUT -p icmp --icmp-type echo-request -j PING_OF_DEATH
@@ -120,7 +120,7 @@ $IPT -A SYN_FLOOD -p tcp --syn \
      --hashlimit-name t_SYN_FLOOD \
      -j RETURN
 
-#iptables -A SYN_FLOOD -j LOG --log-prefix "syn_flood_attack: "
+$IPT -A SYN_FLOOD -j LOG --log-prefix "syn_flood_attack: "
 $IPT -A SYN_FLOOD -j DROP
 
 $IPT -A INPUT -p tcp --syn -j SYN_FLOOD
@@ -138,7 +138,7 @@ $IPT -A HTTP_DOS -p tcp -m multiport --dports $HTTP \
      --hashlimit-name t_HTTP_DOS \
      -j RETURN
 
-#iptables -A HTTP_DOS -j LOG --log-prefix "http_dos_attack: "
+$IPT -A HTTP_DOS -j LOG --log-prefix "http_dos_attack: "
 $IPT -A HTTP_DOS -j DROP
 
 $IPT -A INPUT -p tcp -m multiport --dports $HTTP -j HTTP_DOS
