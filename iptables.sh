@@ -52,7 +52,7 @@ then
 	$IPT -A INPUT -s $LOCAL_NET -j ACCEPT
 fi
 
-$IPT -A INPUT  -p tcp -m state --state ESTABLISHED,RELATED -j ACCEPT
+$IPT -A INPUT -m state --state ESTABLISHED,RELATED -j ACCEPT
 
 $IPT -A INPUT   -m state --state INVALID -j DROP
 $IPT -A FORWARD -m state --state INVALID -j DROP
