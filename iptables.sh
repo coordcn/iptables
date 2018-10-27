@@ -147,7 +147,7 @@ $IPT -A INPUT -p tcp -m multiport --dports $HTTP -j HTTP_DOS
 # SSH Brute Force
 ###########################################################
 $IPT -A INPUT -p tcp --syn -m multiport --dports $SSH -m recent --name ssh_attack --set
-$IPT -A INPUT -p tcp --syn -m multiport --dports $SSH -m recent --name ssh_attack --rcheck --seconds 60 --hitcount 6 -j LOG --log-prefix "ssh_brute_force: "
+#$IPT -A INPUT -p tcp --syn -m multiport --dports $SSH -m recent --name ssh_attack --rcheck --seconds 60 --hitcount 6 -j LOG --log-prefix "ssh_brute_force: "
 $IPT -A INPUT -p tcp --syn -m multiport --dports $SSH -m recent --name ssh_attack --rcheck --seconds 60 --hitcount 6 -j REJECT --reject-with tcp-reset
 
 # HTTP, HTTPS
@@ -156,4 +156,5 @@ $IPT -A INPUT -p tcp -m multiport --dports $HTTP -j ACCEPT
 # SSH
 $IPT -A INPUT -p tcp -m multiport --dports $SSH -j ACCEPT
 
+$IPT -A INPUT  -j LOG --log-prefix "drop: "
 $IPT -A INPUT -j DROP
