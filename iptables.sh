@@ -156,5 +156,5 @@ $IPT -A INPUT -p tcp -m multiport --dports $HTTP -j ACCEPT
 # SSH
 $IPT -A INPUT -p tcp -m multiport --dports $SSH -j ACCEPT
 
-$IPT -A INPUT  -j LOG --log-prefix "drop: "
+#$IPT -A INPUT  -j LOG --log-prefix "drop: "
 $IPT -A INPUT -j DROP
